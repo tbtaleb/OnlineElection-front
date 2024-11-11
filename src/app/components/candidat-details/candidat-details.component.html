@@ -1,0 +1,132 @@
+<div class="p-4 grid grid-cols-9">
+    <div class="col-span-3 p-2">
+        <div class="relative w-full rounded-lg">
+            <!-- Image with gradient overlay -->
+            <div class="relative rounded-lg">
+                <img src="assets/licensed-image.jpg" alt="Mohamed Taleb ben drachenya"
+                    class="w-full h-full object-cover rounded-lg">
+                <!-- Gradient overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent rounded-lg"></div>
+            </div>
+            <!-- Text positioned at the bottom of the image -->
+            <p
+                class="absolute bottom-0 left-0 w-full text-white font-bold text-5xl mb-4 ml-2 tracking-tighter capitalize">
+                mohamed Taleb ben drachenya
+            </p>
+        </div>
+
+        <div class="flex gap-2 my-2">
+            <button (click)="confirmVote()"
+                class="text-red-600 border-2 font-semibold transition-colors duration-200 text-xl border-red-600 hover:bg-red-600 rounded-lg w-full hover:text-white "><i
+                    class="fa-solid fa-check-to-slot mr-2"></i>Vote</button>
+            <button
+                class="border-2 font-semibold transition-colors duration-200 text-xl border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white rounded-lg fit px-2 py-1 "><i
+                    class="fa-solid fa-star"></i></button>
+        </div>
+        <hr class="border-red-600">
+        <p class="text-6xl font-bold tracking-tighter my-2">
+            BIOGRARPHY:
+        </p>
+        <p class="text-justify text-lg ">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi deserunt quasi inventore corrupti
+            aliquam. Magni reprehenderit provident doloremque architecto nesciunt quod iure unde dolores eveniet qui
+            officia, omnis libero nobis.
+        </p>
+    </div>
+    <div class="col-span-6 p-2">
+        <div class=" p-2 rounded-lg border-2 border-blue-400 hover:border-blue-700 transition-all duration-200">
+            <p class="text-6xl font-bold tracking-tighter mb-2">
+                PROGRAM:
+            </p>
+            <hr class="border-blue-300">
+            <p class="text-justify text-lg">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam impedit deleniti aliquid, rerum,
+                mollitia
+                perspiciatis odio, obcaecati officia temporibus nisi possimus reiciendis voluptatem molestiae porro
+                pariatur? Excepturi aliquid minima totam?
+
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quasi nam vitae magni sunt sapiente
+                architecto a dolores voluptates, eveniet ex temporibus eius praesentium nemo amet repellat aliquam
+                placeat
+                deleniti!
+
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad quo dignissimos laudantium iusto enim earum
+                eum
+                veniam iure deleniti et, nisi nobis eveniet laboriosam totam, debitis, nam dolores eaque labore.
+            </p>
+        </div>
+        <div class="mt-6 p-4 rounded-lg border-2 border-blue-300 max-h-svh">
+            <p class="text-4xl font-bold tracking-tighter mb-4">Forum</p>
+            <hr class="border-gray-300 mb-4">
+            <div class="overflow-scroll max-h-80">
+                <div class="mb-4 border rounded-xl p-2 border-blue-400 shadow-md hover:border-blue-700">
+                    <div class="flex justify-between mb-1 ">
+                        <div class="flex justify-center items-center">
+                            <i class="fa-solid fa-circle-user fa-xl mr-2 "></i>
+                            <p class="text-xl font-bold text-gray-800">John Doe</p>
+                        </div>
+                        <p class="text-sm text-gray-500">2 hours ago</p>
+                    </div>
+                    <hr class="border">
+                    <p class="text-lg text-gray-700 mt-2">
+                        This is an insightful program. Looking forward to more Lorem, ipsum dolor sit amet consectetur
+                        adipisicing elit. Necessitatibus, quam laborum fugit, nemo sunt est similique inventore,
+                        laudantium sint earum ea soluta magnam libero. Corrupti quo iusto molestiae eligendi recusandae.
+                    </p>
+                </div>
+                <div class="mb-4 border rounded-xl p-2 border-blue-400 shadow-md">
+                    <div class="flex justify-between mb-1 ">
+                        <div class="flex justify-center items-center">
+                            <i class="fa-solid fa-circle-user fa-xl mr-2 "></i>
+                            <p class="text-xl font-bold text-gray-800">John Doe</p>
+                        </div>
+                        <p class="text-sm text-gray-500">2 hours ago</p>
+                    </div>
+                    <hr class="border">
+                    <p class="text-lg text-gray-700 mt-2">
+                        This is an insightful program. Looking forward to more updates!
+                    </p>
+                </div>
+                <div class="mb-4 border rounded-xl p-2 border-blue-400 shadow-md">
+                    <div class="flex justify-between mb-1 ">
+                        <div class="flex justify-center items-center">
+                            <i class="fa-solid fa-circle-user fa-xl mr-2 "></i>
+                            <p class="text-xl font-bold text-gray-800">John Doe</p>
+                        </div>
+                        <p class="text-sm text-gray-500">2 hours ago</p>
+                    </div>
+                    <hr class="border">
+                    <p class="text-lg text-gray-700 mt-2">
+                        This is an insightful program. Looking forward to more updates!
+                    </p>
+                </div>
+            </div>
+            <div class="mt-4 p-4 border-t border-gray-300">
+                <p class="text-2xl font-semibold mb-2">Add a Comment</p>
+                <div class="flex flex-col gap-2">
+                    <textarea
+                        class="p-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                        rows="1"
+                        placeholder="Write your comment here..."></textarea>
+                    <button class="self-start bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-dialog header="Confirm Vote" [(visible)]="visible" [modal]="true" [dismissableMask]="true" [closable]="true"
+    [resizable]="true">
+    <div class="p-2">
+        <p>Are you sure you want to vote this candidate</p>
+        <div class="flex gap-4">
+            <button class="bg-green-500">
+                <i class="fa-solid fa-check"></i> Confirm
+            </button>
+            <button class="bg-red-500">
+                <i class="fa-solid fa-xmark mr-2"></i> Cancel
+            </button>
+        </div>
+    </div>
+</p-dialog>
