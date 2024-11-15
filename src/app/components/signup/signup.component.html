@@ -1,8 +1,6 @@
 <div class="relative min-h-screen bg-cover bg-center" style="background-image: url('assets/img.png');">
-    <!-- Overlay for gradient effect -->
     <div class="absolute inset-0 bg-black opacity-40"></div>
 
-    <!-- Centered Login Form -->
     <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="bg-white/10 p-8 rounded-xl shadow-md w-full max-w-lg backdrop-blur-sm border border-lightpink text-white ">
             <h2 class="text-4xl font-extrabold text-center tracking-tighter">Login</h2>
@@ -20,10 +18,6 @@
                     <i class="fa-solid fa-envelope text-gray-400"></i>
                   </span>
                 </div>
-                <!-- <p *ngIf=" loginForm.get('email')?.errors" class="text-yellow-300  text-sm mt-1">
-                  <span *ngIf="formSubmitted && loginForm.get('email')?.errors?.['required']"><i class="fa-solid fa-circle-exclamation"></i> L'email est requis.</span>
-                  <span *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']"><i class="fa-solid fa-triangle-exclamation"></i> Email invalide.</span>
-                </p> -->
               </div>
               <div class="mb-4">
                 <label for="password" class="block text-sm font-medium ">Password</label>
@@ -34,9 +28,6 @@
                     <i class="fa-solid fa-lock text-gray-400"></i>
                   </span>
                 </div>
-                <!-- <p *ngIf=" loginForm.get('password')?.errors" class="text-yellow-300  text-sm mt-1">
-                  <span *ngIf="formSubmitted && loginForm.get('password')?.errors?.['required']"><i class="fa-solid fa-circle-exclamation"></i> Le mot de passe est requis.</span>
-                </p> -->
               </div>
               <div class="mb-4">
                 <label class="flex items-center">
