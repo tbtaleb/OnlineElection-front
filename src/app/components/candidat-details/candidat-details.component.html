@@ -1,14 +1,11 @@
 <div class="p-4 grid grid-cols-9">
     <div class="col-span-3 p-2">
         <div class="relative w-full rounded-lg">
-            <!-- Image with gradient overlay -->
             <div class="relative rounded-lg">
                 <img src="assets/licensed-image.jpg" alt="Mohamed Taleb ben drachenya"
                     class="w-full h-full object-cover rounded-lg">
-                <!-- Gradient overlay -->
                 <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent rounded-lg"></div>
             </div>
-            <!-- Text positioned at the bottom of the image -->
             <p
                 class="absolute bottom-0 left-0 w-full text-white font-bold text-5xl mb-4 ml-2 tracking-tighter capitalize">
                 mohamed Taleb ben drachenya
@@ -19,9 +16,12 @@
             <button (click)="confirmVote()"
                 class="text-red-600 border-2 font-semibold transition-colors duration-200 text-xl border-red-600 hover:bg-red-600 rounded-lg w-full hover:text-white "><i
                     class="fa-solid fa-check-to-slot mr-2"></i>Vote</button>
-            <button
+            <button *ngIf="alreadyFavorite" (click)="fav()" pTooltip="Already favourited" tooltipPosition="top"
                 class="border-2 font-semibold transition-colors duration-200 text-xl border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white rounded-lg fit px-2 py-1 "><i
                     class="fa-solid fa-star"></i></button>
+            <button *ngIf="!alreadyFavorite" (click)="fav()" pTooltip="Add favourite? " tooltipPosition="top"
+                class="border-2 font-semibold transition-colors duration-200 text-xl border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white rounded-lg fit px-2 py-1 ">
+                <i class="fa-regular fa-star"></i></button>
         </div>
         <hr class="border-red-600">
         <p class="text-6xl font-bold tracking-tighter my-2">
@@ -106,9 +106,9 @@
                 <div class="flex flex-col gap-2">
                     <textarea
                         class="p-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
-                        rows="1"
-                        placeholder="Write your comment here..."></textarea>
-                    <button class="self-start bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition">
+                        rows="1" placeholder="Write your comment here..."></textarea>
+                    <button
+                        class="self-start bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition">
                         Submit
                     </button>
                 </div>
@@ -117,14 +117,16 @@
     </div>
 </div>
 <p-dialog header="Confirm Vote" [(visible)]="visible" [modal]="true" [dismissableMask]="true" [closable]="true"
-    [resizable]="true">
-    <div class="p-2">
-        <p>Are you sure you want to vote this candidate</p>
-        <div class="flex gap-4">
-            <button class="bg-green-500">
+    [resizable]="true" class="rounded-xl">
+    <div class="p-2 text-black">
+        <p class="text-lg text-center mb-2 font-semibold">Are you sure you want to vote this candidate</p>
+        <div class="flex gap-4 justify-center">
+            <button
+                class="bg-white border-2 border-green-500 rounded-lg py-1 px-2 hover:bg-green-500 hover:shadow-md hover:text-white font-semibold transition-all duration-150 ">
                 <i class="fa-solid fa-check"></i> Confirm
             </button>
-            <button class="bg-red-500">
+            <button (click)="confirmVote()"
+                class="bg-white border-2 border-red-500 rounded-lg py-1 px-2 hover:bg-red-500 hover:shadow-md hover:text-white font-semibold transition-all duration-150">
                 <i class="fa-solid fa-xmark mr-2"></i> Cancel
             </button>
         </div>

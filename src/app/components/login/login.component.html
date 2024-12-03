@@ -10,7 +10,7 @@
               Write your informations.
             </P>
             <hr class="my-2">
-            <form>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
               <div class="mb-4">
                 <label for="email" class="block text-sm font-medium ">Email</label>
                 <div class="relative">
@@ -44,9 +44,9 @@
                   <span class="ml-2 text-sm">Remember Me</span>
                 </label>
               </div>
-              <div class="flex items-center justify-centre  ">
-                <button type="submit"
-                  class=" border-white border hover:bg-teal hover:border-teal transition-colors duration-200 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline">
+              <div class="flex items-center justify-center">
+                <button type="submit" 
+                  class=" border-white border hover:bg-white hover:text-red-600 hover:border-red-600 transition-colors duration-200 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline">
                   Log in <i class="fa-solid fa-arrow-right"></i>
                 </button>
               </div>

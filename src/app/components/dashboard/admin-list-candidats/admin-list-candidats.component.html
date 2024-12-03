@@ -1,0 +1,65 @@
+<div class="card">
+    <div class="flex justify-center gap-3 items-center">
+        <div class="relative w-96 my-3 ">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input type="text" id="simple-search"
+            class="bg-gray-50 border-2 border-lightblue text-gray-900 text-sm rounded-lg focus:ring-teal focus:border-lightblue block w-full ps-10 p-2.5"
+            placeholder="Search by Name or Party" (input)="onSearchChange($event)" />
+        </div>
+        <button class="border-2 border-gray-200 bg-gray-50 text-black px-3 h-fit py-2 rounded-lg hover:bg-blue-600 hover:text-white hover:rounded-xl hover:shadow-md transition-all duration-100 ease-in-out">
+            <i class="fa-solid fa-user-plus"></i> Add candidate
+        </button>
+    </div>
+    <p-table
+        #dt1
+        [value]="filteredCandidates"
+        dataKey="id"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [globalFilterFields]="['name', 'party', 'representative.name', 'status']"
+        >
+        <ng-template pTemplate="header">
+            <tr>
+                
+                <th  pSortableColumn="name">
+                    <div class="flex items-center">
+                        Name  <p-sortIcon field="name" />
+                    </div>
+                </th>
+                <th  pSortableColumn="party">
+                    <div class="flex items-center">
+                        Party  <p-sortIcon field="party" />
+                    </div>
+                </th>
+                <th  >Biography</th>
+                <th>Electoral Program</th>
+              
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-candidate>
+            <tr>
+              <td>
+                <div class="flex justify-start items-center gap-2">
+                    <img [src]="candidate.profilePicture" alt="{{ candidate.name }}" width="50" class="rounded-full"/>
+                    {{ candidate.name }}
+                </div>
+              </td>
+              <td>{{ candidate.party }}</td>
+              <td>{{ candidate.biography }}</td>
+              <td>{{ candidate.electoralProgram }}</td>
+              <td>
+                <p-speedDial [model]="items" direction="left" />
+              </td>
+            </tr>
+          </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7">No Candidats found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

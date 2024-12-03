@@ -1,0 +1,31 @@
+<div>
+    <nav class="bg-lightpink p-4 flex items-center justify-between">
+        <i class="fa-solid fa-arrow-left fa-xl"></i>
+        <div class="flex justify-around items-center font-extrabold text-2xl text-center">
+            Dashboard
+        </div>
+    </nav>
+
+    <div class="grid grid-cols-12 p-4">
+        <div class="col-span-2 h-auto p-4">
+            <ul class="font-bold text-sm md:text-lg space-y-2">
+                <li>
+                    <a routerLink="listArticle" routerLinkActive="active"
+                        class="block p-2 transition duration-200 ease-in-out rounded-lg hover:border hover:border-darkpink">
+                        - Candidats
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="listAtelier" routerLinkActive="active"
+                        class="block p-2 transition duration-200 ease-in-out rounded-lg hover:border hover:border-darkpink">
+                        - Users
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-span-10 border-2 border-lightblue p-2 rounded-xl h-auto">
+            <app-admin-list-candidats></app-admin-list-candidats>
+            <!-- <router-outlet></router-outlet> -->
+        </div>
+    </div>
+</div>

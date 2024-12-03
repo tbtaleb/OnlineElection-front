@@ -1,51 +1,132 @@
 <div class="relative min-h-screen bg-cover bg-center" style="background-image: url('assets/img.png');">
-    <div class="absolute inset-0 bg-black opacity-40"></div>
+  <div class="absolute inset-0 bg-black opacity-40"></div>
 
-    <div class="relative z-10 flex items-center justify-center min-h-screen">
-        <div class="bg-white/10 p-8 rounded-xl shadow-md w-full max-w-lg backdrop-blur-sm border border-lightpink text-white ">
-            <h2 class="text-4xl font-extrabold text-center tracking-tighter">Login</h2>
-            <P class="text-center">
-              Write your informations.
-            </P>
-            <hr class="my-2">
-            <form>
-              <div class="mb-4">
-                <label for="email" class="block text-sm font-medium ">Email</label>
-                <div class="relative">
-                  <input type="email" id="email" formControlName="email" required
-                    class="mt-1 p-2 pl-10 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm md:text-base text-black border-gray-300">
-                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-envelope text-gray-400"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="mb-4">
-                <label for="password" class="block text-sm font-medium ">Password</label>
-                <div class="relative">
-                  <input type="password" id="password" formControlName="password" required
-                    class="mt-1 p-2 pl-10 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm text-black border-gray-300">
-                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-lock text-gray-400"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="mb-4">
-                <label class="flex items-center">
-                  <input type="checkbox" formControlName="remember" class="form-checkbox">
-                  <span class="ml-2 text-sm">Remember Me</span>
-                </label>
-              </div>
-              <div class="flex items-center justify-centre  ">
-                <button type="submit"
-                  class=" border-white border hover:bg-teal hover:border-teal transition-colors duration-200 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline">
-                  Log in <i class="fa-solid fa-arrow-right"></i>
-                </button>
-              </div>
-            </form>
-            <hr class="my-3">
-            <div class="text font-medium  mt-2 text-center">
-              not logged in? <a  class="text-yellow hover:underline">Create an account</a>
+  <div class="relative z-10 flex items-center justify-center min-h-screen">
+    <div
+      class="bg-white/10 p-8 rounded-xl shadow-md w-full max-w-4xl backdrop-blur-sm border border-pink-500 text-white">
+
+      <div class="card justify-center ">
+        <a routerLink="/">
+          <i class="fa-solid fa-arrow-left text-white absolute left-4 top-4 cursor-pointer text-2xl"></i>
+        </a>
+        <h2 class="text-4xl font-extrabold  tracking-tighter text-center text-white">Create your account</h2>
+        <p class="text-center text-white">Write the necessary informations.</p>
+        <hr class="my-3">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <div class="mb-4">
+              <label for="fullName" class="block text-sm font-medium text-white">Full Name:</label>
+              <input type="text" id="FullName" formControlName="FullName" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+              <!-- <p *ngIf=" signupForm.get('FullName')?.errors" class="text-yellow-300  text-sm mt-1">
+                    <span *ngIf=" formSubmitted && signupForm.get('FullName')?.errors?.['required']"><i
+                        class="fa-solid fa-circle-exclamation"></i> Le FullName est requis.</span>
+                    <span *ngIf="signupForm.get('FullName')?.touched && signupForm.get('FullName')?.errors?.['minlength'] ||formSubmitted && signupForm.get('FullName')?.errors?.['minlength']">
+                      <i class="fa-solid fa-triangle-exclamation"></i> Le FullName doit avoir au moins 3 caractères.</span>
+                  </p> -->
+            </div>
+           <div class="mb-4">
+              <label for="Birthday" class="block text-sm font-medium text-white">Birth date:</label>
+              <input type="date" id="Birthday" formControlName="Birthday" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+              <!-- <p *ngIf="signupForm.get('Birthday')?.errors && formSubmitted" class="text-yellow-300 text-sm mt-1">
+                  <span><i class="fa-solid fa-circle-exclamation"></i> La date de naissance est requise.</span>
+                </p> -->
+            </div>
+            <div class="mb-4">
+              <label for="gender" class="block text-sm font-medium text-white">Gender</label>
+              <select id="gender" formControlName="gender" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+                <option value="homme">Homme</option>
+                <option value="femme">Femme</option>
+              </select>
+              <!-- <p *ngIf="signupForm.get('gender')?.errors && formSubmitted" class="text-yellow-300 text-sm mt-1">
+                  <span><i class="fa-solid fa-circle-exclamation"></i> Veuillez sélectionner votre genre.</span>
+                </p> -->
+            </div>
+            <div class="mb-4">
+              <label for="numTel" class="block text-sm font-medium text-white ">Phone number:</label>
+              <input type="number" id="numTel" formControlName="numTel" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+              <!-- <p *ngIf="signupForm.get('numTel')?.errors" class="text-yellow-300  text-sm mt-1">
+                  <span *ngIf="formSubmitted && signupForm.get('numTel')?.errors?.['required']"><i
+                      class="fa-solid fa-circle-exclamation"></i> Le numéro de téléphone est requis.</span>
+                  <span
+                    *ngIf="formSubmitted && signupForm.get('numTel')?.errors?.['minlength'] || signupForm.get('numTel')?.touched && signupForm.get('numTel')?.errors?.['minlength']"><i
+                      class="fa-solid fa-triangle-exclamation"></i> Le numéro de téléphone doit avoir 8 caractères.</span>
+                  <span
+                    *ngIf="formSubmitted && signupForm.get('numTel')?.errors?.['maxlength'] || signupForm.get('numTel')?.touched && signupForm.get('numTel')?.errors?.['maxlength']"><i
+                      class="fa-solid fa-triangle-exclamation"></i> Le numéro de téléphone ne doit pas dépasser 8
+                    caractères.</span>
+                </p> -->
             </div>
           </div>
+          <div>
+            <div class="mb-4">
+              <label for="cin" class="block text-sm font-medium text-white ">CIN (ID card number):</label>
+              <input type="text" id="cin" formControlName="cin" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+              <!-- <p *ngIf="signupForm.get('cin')?.errors" class="text-yellow-300  text-sm mt-1">
+                  <span *ngIf="formSubmitted && signupForm.get('cin')?.errors?.['required']"><i
+                      class="fa-solid fa-circle-exclamation"></i> Le numéro de téléphone est requis.</span>
+                  <span
+                    *ngIf="formSubmitted && signupForm.get('cin')?.errors?.['minlength'] || signupForm.get('cin')?.touched && signupForm.get('cin')?.errors?.['minlength']"><i
+                      class="fa-solid fa-triangle-exclamation"></i> Le numéro de téléphone doit avoir 8 caractères.</span>
+                  <span
+                    *ngIf="formSubmitted && signupForm.get('cin')?.errors?.['maxlength'] || signupForm.get('cin')?.touched && signupForm.get('cin')?.errors?.['maxlength']"><i
+                      class="fa-solid fa-triangle-exclamation"></i> Le numéro de téléphone ne doit pas dépasser 8
+                    caractères.</span>
+                </p> -->
+            </div>
+            <div class="mb-4">
+              <label for="email" class="block text-sm font-medium text-white">Email:</label>
+              <input type="email" id="email" formControlName="email" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+              <!-- <p *ngIf=" signupForm.get('email')?.errors" class="text-yellow-300  text-sm mt-1">
+                    <span *ngIf="formSubmitted &&  signupForm.get('email')?.errors?.['required']"><i
+                        class="fa-solid fa-circle-exclamation"></i> L'email est requis.</span>
+                    <span *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['email']"><i
+                        class="fa-solid fa-triangle-exclamation"></i> Email invalide.</span>
+                  </p> -->
+            </div>
+            <div class="mb-4">
+              <label for="password" class="block text-sm font-medium text-white">Password:</label>
+
+              <input type="password" id="password" formControlName="password" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+              <!-- <p *ngIf="signupForm.get('password')?.errors" class="text-yellow-300  text-sm mt-1">
+                  <span *ngIf="formSubmitted && signupForm.get('password')?.errors?.['required']"><i
+                      class="fa-solid fa-circle-exclamation"></i> Le mot de passe est requis.</span>
+                  <span
+                    *ngIf="formSubmitted && signupForm.get('password')?.errors?.['minlength'] || signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']"><i
+                      class="fa-solid fa-triangle-exclamation"></i> Le mot de passe doit avoir au moins 6
+                    caractères.</span>
+                </p> -->
+            </div>
+            <div class="mb-4">
+              <label for="confirmMotPasse" class="block text-sm font-medium text-white">Confirm password:</label>
+              <input type="password" id="confirmMotPasse" formControlName="confirmMotPasse" required
+                class="text-black mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-teal focus:border-teal sm:text-sm border-gray-300">
+            </div>
+            <!-- <div *ngIf="passwordsMismatch" class="text-yellow-300 text-sm mb-4">
+                Passwords do not match!
+              </div> -->
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center">
+          <button type="submit"
+            class=" border-white border hover:bg-teal hover:border-teal transition-colors duration-200 text-white text-xl font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline">
+            Créer votre compte <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        </form>
+        <hr class="my-3">
+        <div class=" font-medium text-center mt-2 text-white">
+          Vous avez déja un compte? <a class="text-yellow hover:underline">Se connecter</a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
