@@ -5,18 +5,40 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
 import { CandidatDetailsComponent } from './components/candidat-details/candidat-details.component';
+import { AdminListCandidatsComponent } from './components/dashboard/admin-list-candidats/admin-list-candidats.component';
+import { AdminListUsersComponent } from './components/dashboard/admin-list-users/admin-list-users.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
+import { ProfilComponent } from './components/profil/profil.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+
+  { path: 'accueil', component: AccueilComponent, 
+    children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'candidate/:id', component: CandidatDetailsComponent },
+      { path: 'profile', component: ProfilComponent },
+      { path: '**', redirectTo: 'home' },
+    ]
+  },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'candidate/:id', component: CandidatDetailsComponent },
-  { path: '**', redirectTo: 'home' },
+  { path: 'dashboard', component: DashboardComponent,
+    children: [
+      { path: 'candidates', component: AdminListCandidatsComponent },
+      { path: 'users', component: AdminListUsersComponent },
+      {path:'**', redirectTo:'candidates'}
+    ]
+  },
+  { path: '**', redirectTo: 'accueil' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled',
+    onSameUrlNavigation: 'reload',
+    scrollOffset: [0, 50],
+  })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

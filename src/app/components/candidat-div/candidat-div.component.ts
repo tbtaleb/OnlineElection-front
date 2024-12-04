@@ -17,6 +17,6 @@ export class CandidatDivComponent {
   toDetails() {
     console.log('Navigating to candidate details:', this.candidate._id);
     
-    this.router.navigate(['/candidate', this.candidate._id]);
+    this.router.navigate(['/accueil/candidate', this.candidate._id]);
   }
 }

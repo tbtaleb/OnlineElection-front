@@ -1,0 +1,22 @@
+<div class="h-fit flex flex-col shadow-lg">
+    <nav class="bg-red-600 p-2 flex items-center gap-5 justify-between text-white rounded-b-xl">
+
+        <a routerLink="/accueil/home" routerLinkActive="active" 
+            class="text-lg font-bold p-2 rounded-lg border border-red-600 hover:border hover:border-white hover:text-white transition">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+        <p class="text-lg font-bold">
+           ----- Welcome to the Presidential Election Portal-----
+        </p>
+        <a routerLink="/accueil/profile" routerLinkActive="active" 
+            class="text-lg font-bold p-2 rounded-lg border  border-red-600 hover:border hover:border-white hover:text-white transition">
+            <i class="fa-solid fa-user"></i> Profile
+        </a>
+        @if (loggedin==true) {
+            <a routerLink="/login"  
+        class="text-lg font-bold p-2 rounded-lg border  border-red-600 hover:border hover:border-white hover:text-white transition">
+        <i class="fa-solid fa-unlock"></i> Log In</a>
+        }
+    
+    </nav>
+</div>

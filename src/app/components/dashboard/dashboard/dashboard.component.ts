@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { AdminListCandidatsComponent } from "../admin-list-candidats/admin-list-candidats.component";
-import { AdminFormCandidatsComponent } from "../admin-form-candidats/admin-form-candidats.component";
 
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [AdminListCandidatsComponent, AdminFormCandidatsComponent],
+  imports: [RouterOutlet,RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  constructor(private router: Router) {}
 
+  navigateTo(route: string) {
+    this.router.navigate([`${route}`]);
+  }
 }

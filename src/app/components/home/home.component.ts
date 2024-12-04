@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CandidatDivComponent } from "../candidat-div/candidat-div.component";
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { Candidate } from '../../models/candidate.model';
 import { CandidateService } from '../../services/candidate.service';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -46,15 +47,19 @@ import { CommonModule } from '@angular/common';
     `,
   ],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit , AfterViewChecked{
   data: any;
   options: any;
   candidates: Candidate[] = [];
 
-  constructor(private candidateService: CandidateService) {}
+  constructor(private candidateService: CandidateService,private route: ActivatedRoute) {}
+  ngAfterViewChecked(): void {
+    this.scrollToFragment();
+  }
 
   ngOnInit() {
-     this.getCandidates();
+    this.scrollToFragment();
+    this.getCandidates();
     // Define the chart data
     this.data = {
       labels: ['taleb', 'janbou', 'gzeza', 'ayar', 'eyaaa'],
@@ -87,6 +92,16 @@ export class HomeComponent implements OnInit {
       error: (error) => {
         console.error('Error fetching candidates:', error);
       },
+    });
+  }
+  private scrollToFragment(): void {
+    this.route.fragment?.subscribe(fragment => {
+      if (fragment) {
+        const element = document.getElementById(fragment);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     });
   }
 }

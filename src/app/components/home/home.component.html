@@ -1,7 +1,7 @@
 <div class="">
-    <h1 class="font-bold text-6xl text-center bg-red-600 text-white py-2 tracking-tighter">
+    <!-- <h1 class="font-bold text-6xl text-center bg-red-600 text-white py-2 tracking-tighter">
         Welcome to the Presidential Election Portal
-    </h1>
+    </h1> -->
     <div class="relative w-full h-96 bg-cover bg-center" style="background-image: url('assets/img.png');">
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
@@ -14,7 +14,17 @@
             </p>
         </div>
     </div>
-    <hr class="mx-6 border-red-600 my-2">
+    <hr class="p-6 border-red-600">
+    <div class="pl-4 mb-4" id="candidates">
+        <p class="text-center text-5xl font-bold mb-6">List of candidates</p>
+        <div class="grid grid-cols-5 gap-5">
+            <div *ngFor="let candidate of candidates" pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
+                class="animate-duration-1000 animate-ease-in-out">
+                <app-candidat-div [candidate]="candidate"></app-candidat-div>
+            </div>
+        </div>
+    </div>
+    <hr class="mx-6 border-red-600 my-2" id="results">
     <div class="flex flex-col items-center py-2">
         <p class="text-center text-5xl font-bold mb-6 tracking-tighter border-red-600 rounded-lg px-5 p-2 border-2">
             Current Results
@@ -25,42 +35,5 @@
             </div>
         </div>
     </div>
-    <hr class="p-6 border-red-600">
-    <div class="pl-4 mb-4">
-        <p class="text-center text-5xl font-bold mb-6">List of candidates</p>
-        <div class="grid grid-cols-5 gap-5">
-            <div *ngFor="let candidate of candidates" pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
-                class="animate-duration-1000 animate-ease-in-out">
-                <app-candidat-div [candidate]="candidate"></app-candidat-div>
-            </div>
-        </div>
-    </div>
+   
 </div>
-<footer class="bg-gray-900 text-white py-6 mt-8">
-    <div class="container mx-auto px-4 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
-        <!-- Logo/Title -->
-        <div class="mb-4 md:mb-0">
-            <h2 class="text-2xl font-bold">Presidential Election 2024</h2>
-        </div>
-
-        <!-- Navigation Links -->
-        <div class="flex space-x-6 mb-4 md:mb-0">
-            <a href="/about" class="hover:underline">About</a>
-            <a href="/privacy-policy" class="hover:underline">Privacy Policy</a>
-            <a href="/terms" class="hover:underline">Terms of Service</a>
-            <a href="/contact" class="hover:underline">Contact Us</a>
-        </div>
-
-        <!-- Social Media Links -->
-        <div class="flex space-x-4">
-            <a href="#" class="text-blue-500 hover:text-blue-400"><i class="fab fa-facebook fa-lg"></i></a>
-            <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fab fa-twitter fa-lg"></i></a>
-            <a href="#" class="text-red-600 hover:text-red-500"><i class="fab fa-youtube fa-lg"></i></a>
-        </div>
-    </div>
-
-    <!-- Disclaimer -->
-    <div class="mt-4 text-center text-sm text-gray-400">
-        <p>© 2024 Presidential Election App. All rights reserved. This app is an informational resource and is not affiliated with any official government agency.</p>
-    </div>
-</footer>
