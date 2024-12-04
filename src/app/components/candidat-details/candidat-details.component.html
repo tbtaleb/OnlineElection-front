@@ -2,19 +2,21 @@
     <div class="col-span-3 p-2">
         <div class="relative w-full rounded-lg">
             <div class="relative rounded-lg">
-                <img src="assets/licensed-image.jpg" alt="{{ candidate!.name }}"
+                <img [src]="candidate?.profilePicture || 'assets/licensed-image.jpg'" alt="{{ candidate?.name }}"
                     class="w-full h-full object-cover rounded-lg">
                 <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent rounded-lg"></div>
             </div>
             <p class="absolute bottom-0 left-0 w-full text-white font-bold text-5xl mb-4 ml-2 tracking-tighter capitalize">
-                {{ candidate!.name }}
+                {{ candidate?.name }}
             </p>
         </div>
 
         <div class="flex gap-2 my-2">
-            <button (click)="confirmVote()"
-                class="text-red-600 border-2 font-semibold transition-colors duration-200 text-xl border-red-600 hover:bg-red-600 rounded-lg w-full hover:text-white">
-                <i class="fa-solid fa-check-to-slot mr-2"></i>Vote
+            <button (click)="confirmVote()" [disabled]="hasVoted"
+                class="text-red-600 border-2 font-semibold transition-colors duration-200 text-xl border-red-600 hover:bg-red-600 rounded-lg w-full hover:text-white"
+                [ngClass]="{'bg-gray-400 text-gray-700 border-gray-400': hasVoted}">
+                <i class="fa-solid fa-check-to-slot mr-2"></i>
+                {{ votedForCurrentCandidate ? 'Voted' : 'You already voted for another candidate' }}
             </button>
             <button *ngIf="alreadyFavorite" (click)="toggleFavorite()" pTooltip="Already favourited" tooltipPosition="top"
                 class="border-2 font-semibold transition-colors duration-200 text-xl border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white rounded-lg fit px-2 py-1">
@@ -30,7 +32,7 @@
             BIOGRAPHY:
         </p>
         <p class="text-justify text-lg">
-            {{ candidate!.biography }}
+            {{ candidate?.biography }}
         </p>
     </div>
     <div class="col-span-6 p-2">
@@ -40,7 +42,7 @@
             </p>
             <hr class="border-blue-300">
             <p class="text-justify text-lg">
-                {{ candidate!.electoralProgram }}
+                {{ candidate?.electoralProgram }}
             </p>
         </div>
         <div class="mt-6 p-4 rounded-lg border-2 border-blue-300 max-h-svh">
@@ -51,7 +53,7 @@
                     <div class="flex justify-between mb-1">
                         <div class="flex justify-center items-center">
                             <i class="fa-solid fa-circle-user fa-xl mr-2"></i>
-                            <p class="text-xl font-bold text-gray-800">{{ comment.user }}</p>
+                            <p class="text-xl font-bold text-gray-800">{{ comment.user.name }}</p>
                         </div>
                         <p class="text-sm text-gray-500">{{ comment.createdAt | date:'short' }}</p>
                     </div>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vote } from '../models/vote.model';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,24 @@ import { environment } from '../../environments/environment';
 export class VoteService {
   private apiUrl = `${environment.apiBaseUrl}/api/votes`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  castVote(candidateId: string): Observable<Vote> {
-    return this.http.post<Vote>(this.apiUrl, { candidateId });
+  castVote(candidateId: string): Observable<{ message: string; vote: Vote }> {
+    const body = { candidateId };
+    return this.http.post<{ message: string; vote: Vote }>(this.apiUrl, body, {
+      headers: this.authService.getAuthHeaders(),
+    });
   }
 
   getVotes(): Observable<Vote[]> {
-    return this.http.get<Vote[]>(this.apiUrl);
+    return this.http.get<Vote[]>(this.apiUrl, {
+      headers: this.authService.getAuthHeaders(),
+    });
+  }
+
+  getUserVotes(): Observable<Vote[]> {
+    return this.http.get<Vote[]>(`${this.apiUrl}/user`, {
+      headers: this.authService.getAuthHeaders(),
+    });
   }
 }

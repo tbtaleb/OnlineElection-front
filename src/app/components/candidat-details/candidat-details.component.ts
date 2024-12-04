@@ -23,6 +23,8 @@ export class CandidatDetailsComponent implements OnInit {
   candidate!: Candidate;
   comments: Comment[] = [];
   alreadyFavorite: boolean = false;
+  hasVoted: boolean = false;
+  votedForCurrentCandidate: boolean = false;
   visible: boolean = false;
   newComment: string = '';
 
@@ -38,6 +40,8 @@ export class CandidatDetailsComponent implements OnInit {
     const candidateId = this.route.snapshot.paramMap.get('id')!;
     this.getCandidate(candidateId);
     this.getComments(candidateId);
+    this.checkFavorite(candidateId);
+    this.checkVote(candidateId);
   }
 
   getCandidate(id: string): void {
@@ -62,21 +66,61 @@ export class CandidatDetailsComponent implements OnInit {
     });
   }
 
-  addComment(): void {
-    const comment: Comment = {
-      user: 'currentUserId', // Replace with actual user ID
-      candidate: this.candidate._id!,
-      content: this.newComment,
-    };
-    this.commentService.addComment(comment).subscribe({
-      next: (newComment) => {
-        this.comments.push(newComment);
-        this.newComment = '';
+  checkFavorite(candidateId: string): void {
+    this.favoriteService.getFavorites().subscribe({
+      next: (favorites) => {
+        this.alreadyFavorite = favorites.some(
+          (favorite) => favorite._id === candidateId
+        );
       },
       error: (error) => {
-        console.error('Error adding comment:', error);
+        console.error('Error checking favorites:', error);
       },
     });
+  }
+
+  checkVote(candidateId: string): void {
+    this.voteService.getUserVotes().subscribe({
+      next: (votes) => {
+        this.hasVoted = votes.length > 0; // User has voted if there is at least one vote
+        this.votedForCurrentCandidate = votes.some(
+          (vote) => vote.candidate._id === candidateId
+        );
+      },
+      error: (error) => {
+        console.error('Error checking votes:', error);
+      },
+    });
+  }
+
+  addComment(): void {
+    if (!this.candidate) {
+      console.error('Candidate is not defined');
+      return;
+    }
+
+    this.commentService
+      .addComment(this.candidate._id!, this.newComment)
+      .subscribe({
+        next: (response) => {
+          const newComment = response.comment;
+          console.log('New comment added:', newComment);
+
+          // Fetch the user details for the new comment
+          this.commentService.getComment(newComment._id!).subscribe({
+            next: (fetchedComment) => {
+              this.comments.push(fetchedComment);
+              this.newComment = '';
+            },
+            error: (error) => {
+              console.error('Error fetching new comment:', error);
+            },
+          });
+        },
+        error: (error) => {
+          console.error('Error adding comment:', error);
+        },
+      });
   }
 
   toggleFavorite(): void {
@@ -106,9 +150,16 @@ export class CandidatDetailsComponent implements OnInit {
   }
 
   castVote(): void {
+    if (!this.candidate) {
+      console.error('Candidate is not defined');
+      return;
+    }
+
     this.voteService.castVote(this.candidate._id!).subscribe({
-      next: () => {
-        console.log('Vote cast successfully');
+      next: (response) => {
+        console.log('Vote cast successfully:', response);
+        this.hasVoted = true;
+        this.votedForCurrentCandidate = true;
         this.visible = false;
       },
       error: (error) => {

@@ -1,8 +1,8 @@
 export interface Comment {
-  _id?: string;
-  user: string; // User ID
-  candidate: string; // Candidate ID
+  _id: string;
+  user: { _id: string; name: string }; // Update to expect user object
+  candidate: string;
   content: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt: string;
 }
