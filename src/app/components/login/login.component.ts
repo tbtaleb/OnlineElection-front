@@ -1,38 +1,54 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
-  loginForm: FormGroup;
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
   formSubmitted = false;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: [
-        '',
-        [Validators.required, Validators.email],
-      ],
-      password: [
-        '',
-        [Validators.required, Validators.minLength(6)],
-      ],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       remember: [false],
-    })
+    });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.formSubmitted = true;
-    if (this.loginForm.valid) {
-      console.log('Form submitted:', this.loginForm.value);
-
-    } else {
-      console.log('Form is invalid');
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        // Save the token
+        this.authService.saveToken(response.token);
+        // Handle successful login
+        console.log('User logged in successfully', response);
+        this.router.navigate(['/home']); // Navigate to dashboard or another page
+      },
+      error: (error) => {
+        // Handle error
+        this.errorMessage = error.error.message;
+      },
+    });
   }
 }

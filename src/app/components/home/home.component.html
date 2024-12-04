@@ -29,25 +29,9 @@
     <div class="pl-4 mb-4">
         <p class="text-center text-5xl font-bold mb-6">List of candidates</p>
         <div class="grid grid-cols-5 gap-5">
-            <div pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
+            <div *ngFor="let candidate of candidates" pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
                 class="animate-duration-1000 animate-ease-in-out">
-                <app-candidat-div></app-candidat-div>
-            </div>
-            <div pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
-                class="animate-duration-1000 animate-ease-in-out">
-                <app-candidat-div></app-candidat-div>
-            </div>
-            <div pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
-                class="animate-duration-1000 animate-ease-in-out">
-                <app-candidat-div></app-candidat-div>
-            </div>
-            <div pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
-                class="animate-duration-1000 animate-ease-in-out">
-                <app-candidat-div></app-candidat-div>
-            </div>
-            <div pAnimateOnScroll enterClass="animate-flipup" leaveClass="animate-fadeout"
-                class="animate-duration-1000 animate-ease-in-out">
-                <app-candidat-div></app-candidat-div>
+                <app-candidat-div [candidate]="candidate"></app-candidat-div>
             </div>
         </div>
     </div>

@@ -1,61 +1,40 @@
-import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { StepperModule } from 'primeng/stepper';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { PasswordModule } from 'primeng/password';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+
+
+
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [PasswordModule,
-    StepperModule,
-    ButtonModule,
-    InputTextModule,
-    ToggleButtonModule,
-    IconFieldModule,
-    InputIconModule,
-    CommonModule, FormsModule, ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  styleUrls: ['./signup.component.css'],
 })
-export class SignupComponent {
-  signupForm: FormGroup;
+export class SignupComponent implements OnInit {
+  signupForm!: FormGroup;
   formSubmitted = false;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
-    this.signupForm = this.fb.group({
-      FullName: [
-        '',
-        [Validators.required, Validators.minLength(3)],
-      ],
-      Birthday: ['', Validators.required],
-      gender: ['', Validators.required],
-      numTel: [
-        '',
-        [Validators.required, Validators.minLength(8), Validators.maxLength(8)],
-      ],
-      cin: [
-        '',
-        [Validators.required, Validators.minLength(8), Validators.maxLength(8)],
-      ],
-      email: [
-        '',
-        [Validators.required, Validators.email],
-      ],
-      password: [
-        '',
-        [Validators.required, Validators.minLength(6)],
-      ],
-      confirmMotPasse: ['', Validators.required],
-    },
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.signupForm = this.fb.group(
       {
-        validator: this.matchPasswords('password', 'confirmMotPasse')
-      });
+        name: ['', [Validators.required, Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
+        role: ['user'], // Default role
+      },
+      { validator: this.matchPasswords('password', 'confirmPassword') }
+    );
   }
 
   // Custom validator to check if passwords match
@@ -74,13 +53,22 @@ export class SignupComponent {
     };
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.formSubmitted = true;
-    if (this.signupForm.valid) {
-      console.log('Form submitted:', this.signupForm.value);
-
-    } else {
-      console.log('Form is invalid');
+    if (this.signupForm.invalid) {
+      return;
     }
+
+    this.authService.register(this.signupForm.value).subscribe({
+      next: (response) => {
+        // Handle successful registration
+        console.log('User registered successfully', response);
+        
+      },
+      error: (error) => {
+        // Handle error
+        this.errorMessage = error.error.message;
+      },
+    });
   }
 }

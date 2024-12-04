@@ -1,16 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Candidate } from '../../models/candidate.model';
 
 @Component({
   selector: 'app-candidat-div',
   standalone: true,
   imports: [],
   templateUrl: './candidat-div.component.html',
-  styleUrl: './candidat-div.component.css'
+  styleUrls: ['./candidat-div.component.css'],
 })
 export class CandidatDivComponent {
+  @Input() candidate!: Candidate;
+
+  constructor(private router: Router) {}
+
   toDetails() {
-    throw new Error('Method not implemented.');
+    console.log('Navigating to candidate details:', this.candidate._id);
+    
+    this.router.navigate(['/candidate', this.candidate._id]);
   }
-
-
 }

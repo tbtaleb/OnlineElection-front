@@ -5,13 +5,25 @@ import { CandidatDetailsComponent } from "./components/candidat-details/candidat
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { DashboardComponent } from "./components/dashboard/dashboard/dashboard.component";
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { CandidatDivComponent } from './components/candidat-div/candidat-div.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HomeComponent, CandidatDetailsComponent, LoginComponent, SignupComponent, DashboardComponent],
+  imports: [
+    RouterOutlet,
+    HomeComponent,
+    CandidatDetailsComponent,
+    LoginComponent,
+    SignupComponent,
+    DashboardComponent,
+    CandidatDivComponent
+  ],
+  providers: [BrowserModule, HttpClient],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'frontendProjetNode';
