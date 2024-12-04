@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-
 import { SpeedDialModule } from 'primeng/speeddial';
 import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-admin-list-candidats',
   standalone: true,
-  imports: [TableModule,ToastModule,SpeedDialModule ],
+  imports: [TableModule, ToastModule, SpeedDialModule,DialogModule],
   templateUrl: './admin-list-candidats.component.html',
   styleUrl: './admin-list-candidats.component.css'
 })
 export class AdminListCandidatsComponent {
   //IMPORTANT: fl function ta3 ng onitin wala whenever u get the candidates 7ot loading = false
   loading: boolean = true;
+  showDialogue: boolean= false;
   searchValue: string | undefined;
-  filteredCandidates:any[] =[];
+  filteredCandidates: any[] = [];
   candidates: any[] = [
     {
       id: 1,
@@ -41,10 +42,9 @@ export class AdminListCandidatsComponent {
       profilePicture: 'https://via.placeholder.com/50',
     },
   ];
-
   ngOnInit() {
-    this.loading=false
-    this.filteredCandidates=this.candidates
+    this.loading = false
+    this.filteredCandidates = this.candidates
   }
   onSearchChange(event: Event) {
     const input = (event.target as HTMLInputElement).value.toLowerCase();
@@ -57,5 +57,19 @@ export class AdminListCandidatsComponent {
           (data.party ? data.party.toLowerCase().includes(input) : false)
       );
     }
+  }
+  
+  showIt(candidate:any){
+    this.showDialogue = !this.showDialogue;
+    //this.candidate=candidate
+  }
+  cancelSup() {
+    this.showDialogue = !this.showDialogue;
+  }
+  deleteCandidate() {
+    //delete method
+  }
+  editCandidate(_t30: any) {
+    throw new Error('Method not implemented.');
   }
 }
