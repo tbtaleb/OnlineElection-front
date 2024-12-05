@@ -8,11 +8,12 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { CandidateService } from '../../../services/candidate.service';
 import { Candidate } from '../../../models/candidate.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-form-candidats',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './admin-form-candidats.component.html',
   styleUrls: ['./admin-form-candidats.component.css'],
 })

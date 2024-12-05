@@ -21,7 +21,7 @@ import { log } from 'console';
   providers: [CandidateService, CommentService, FavoriteService, VoteService],
 })
 export class CandidatDetailsComponent implements OnInit {
-  candidate!: Candidate;
+  candidate?: Candidate;
   comments: Comment[] = [];
   alreadyFavorite: boolean = false;
   hasVoted: boolean = false;
@@ -132,7 +132,7 @@ export class CandidatDetailsComponent implements OnInit {
 
   toggleFavorite(): void {
     if (this.alreadyFavorite) {
-      this.favoriteService.removeFavorite(this.candidate._id!).subscribe({
+      this.favoriteService.removeFavorite(this.candidate?._id!).subscribe({
         next: () => {
           this.alreadyFavorite = false;
         },
@@ -141,7 +141,7 @@ export class CandidatDetailsComponent implements OnInit {
         },
       });
     } else {
-      this.favoriteService.addFavorite(this.candidate._id!).subscribe({
+      this.favoriteService.addFavorite(this.candidate?._id!).subscribe({
         next: () => {
           this.alreadyFavorite = true;
         },

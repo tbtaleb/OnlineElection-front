@@ -14,6 +14,7 @@ import {
 import { UserService } from '../../services/user.service';
 import { FavoriteService } from '../../services/favorite.service';
 import { VoteService } from '../../services/vote.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profil',
@@ -24,6 +25,7 @@ import { VoteService } from '../../services/vote.service';
     SpeedDialModule,
     DialogModule,
     ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.css'],

@@ -14,12 +14,6 @@ import { CandidatDivComponent } from './components/candidat-div/candidat-div.com
   standalone: true,
   imports: [
     RouterOutlet,
-    HomeComponent,
-    CandidatDetailsComponent,
-    LoginComponent,
-    SignupComponent,
-    DashboardComponent,
-    CandidatDivComponent
   ],
   providers: [BrowserModule, HttpClient],
   templateUrl: './app.component.html',
