@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { log } from 'console';
 
 @Component({
   selector: 'app-candidat-details',
@@ -42,6 +43,7 @@ export class CandidatDetailsComponent implements OnInit {
     this.getComments(candidateId);
     this.checkFavorite(candidateId);
     this.checkVote(candidateId);
+    console.log(this.hasVoted);
   }
 
   getCandidate(id: string): void {
@@ -82,7 +84,12 @@ export class CandidatDetailsComponent implements OnInit {
   checkVote(candidateId: string): void {
     this.voteService.getUserVotes().subscribe({
       next: (votes) => {
-        this.hasVoted = votes.length > 0; // User has voted if there is at least one vote
+        console.log('Votes:', votes);
+
+        this.hasVoted = votes.length > 0;
+        console.log('Has voted:', this.hasVoted);
+
+        // User has voted for the current candidate if there is a vote with the current candidate ID
         this.votedForCurrentCandidate = votes.some(
           (vote) => vote.candidate._id === candidateId
         );

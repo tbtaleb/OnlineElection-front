@@ -1,17 +1,24 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import { CandidatDivComponent } from "../candidat-div/candidat-div.component";
+import { CandidatDivComponent } from '../candidat-div/candidat-div.component';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { Candidate } from '../../models/candidate.model';
 import { CandidateService } from '../../services/candidate.service';
+import { VoteService } from '../../services/vote.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ChartModule, CandidatDivComponent, AnimateOnScrollModule,CommonModule],
+  imports: [
+    ChartModule,
+    CandidatDivComponent,
+    AnimateOnScrollModule,
+    CommonModule,
+  ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrls: ['./home.component.css'],
   styles: [
     `
       :host {
@@ -47,12 +54,17 @@ import { ActivatedRoute } from '@angular/router';
     `,
   ],
 })
-export class HomeComponent implements OnInit , AfterViewChecked{
+export class HomeComponent implements OnInit, AfterViewChecked {
   data: any;
   options: any;
   candidates: Candidate[] = [];
 
-  constructor(private candidateService: CandidateService,private route: ActivatedRoute) {}
+  constructor(
+    private candidateService: CandidateService,
+    private voteService: VoteService,
+    private route: ActivatedRoute
+  ) {}
+
   ngAfterViewChecked(): void {
     this.scrollToFragment();
   }
@@ -60,42 +72,68 @@ export class HomeComponent implements OnInit , AfterViewChecked{
   ngOnInit() {
     this.scrollToFragment();
     this.getCandidates();
-    // Define the chart data
-    this.data = {
-      labels: ['taleb', 'janbou', 'gzeza', 'ayar', 'eyaaa'],
-      datasets: [
-        {
-          data: [11, 16, 7, 3, 14],
-          backgroundColor: [
-            '#FF6384',
-            '#4BC0C0',
-            '#FFCE56',
-            '#36A2EB',
-            '#9966FF',
-          ],
-          hoverBackgroundColor: [
-            '#FF6384',
-            '#4BC0C0',
-            '#FFCE56',
-            '#36A2EB',
-            '#9966FF',
-          ],
-        },
-      ],
-    };
   }
+
   getCandidates(): void {
     this.candidateService.getCandidates().subscribe({
       next: (candidates) => {
         this.candidates = candidates;
+        this.updateChartData();
       },
       error: (error) => {
         console.error('Error fetching candidates:', error);
       },
     });
   }
+
+  updateChartData(): void {
+    const labels: string[] = [];
+    const data: number[] = [];
+    const backgroundColor: string[] = [
+      '#FF6384',
+      '#4BC0C0',
+      '#FFCE56',
+      '#36A2EB',
+      '#9966FF',
+    ];
+    const hoverBackgroundColor: string[] = [
+      '#FF6384',
+      '#4BC0C0',
+      '#FFCE56',
+      '#36A2EB',
+      '#9966FF',
+    ];
+
+    let requests = this.candidates.map((candidate, index) => {
+      return this.voteService
+        .getVotesByCandidate(candidate._id!)
+        .toPromise()
+        .then((votes) => {
+          labels.push(candidate.name);
+          data.push(votes!.length);
+        });
+    });
+
+    Promise.all(requests)
+      .then(() => {
+        this.data = {
+          labels: labels,
+          datasets: [
+            {
+              data: data,
+              backgroundColor: backgroundColor,
+              hoverBackgroundColor: hoverBackgroundColor,
+            },
+          ],
+        };
+      })
+      .catch((error) => {
+        console.error('Error fetching votes:', error);
+      });
+  }
+
   private scrollToFragment(): void {
-    this.route.fragment?.subscribe(fragment => {
+    this.route.fragment?.subscribe((fragment) => {
       if (fragment) {
         const element = document.getElementById(fragment);
         if (element) {

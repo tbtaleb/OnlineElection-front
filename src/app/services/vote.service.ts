@@ -31,4 +31,10 @@ export class VoteService {
       headers: this.authService.getAuthHeaders(),
     });
   }
+
+  getVotesByCandidate(candidateId: string): Observable<Vote[]> {
+    return this.http.get<Vote[]>(`${this.apiUrl}/candidate/${candidateId}`, {
+      headers: this.authService.getAuthHeaders(),
+    });
+  }
 }

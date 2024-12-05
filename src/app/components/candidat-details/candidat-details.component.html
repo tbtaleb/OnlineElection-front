@@ -16,7 +16,7 @@
                 class="text-red-600 border-2 font-semibold transition-colors duration-200 text-xl border-red-600 hover:bg-red-600 rounded-lg w-full hover:text-white"
                 [ngClass]="{'bg-gray-400 text-gray-700 border-gray-400': hasVoted}">
                 <i class="fa-solid fa-check-to-slot mr-2"></i>
-                {{ votedForCurrentCandidate ? 'Voted' : 'You already voted for another candidate' }}
+                {{ hasVoted ? (votedForCurrentCandidate ? 'Voted' : 'You already voted for another candidate') : 'Vote' }}
             </button>
             <button *ngIf="alreadyFavorite" (click)="toggleFavorite()" pTooltip="Already favourited" tooltipPosition="top"
                 class="border-2 font-semibold transition-colors duration-200 text-xl border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white rounded-lg fit px-2 py-1">

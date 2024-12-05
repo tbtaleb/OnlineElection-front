@@ -63,6 +63,7 @@ export class SignupComponent implements OnInit {
       next: (response) => {
         // Handle successful registration
         console.log('User registered successfully', response);
+        this.router.navigate(['/login']);
         
       },
       error: (error) => {
