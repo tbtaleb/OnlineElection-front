@@ -30,4 +30,16 @@ export class UserService {
       headers: this.authService.getAuthHeaders(),
     });
   }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl, {
+      headers: this.authService.getAuthHeaders(),
+    });
+  }
+
+  deleteUser(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.authService.getAuthHeaders(),
+    });
+  }
 }

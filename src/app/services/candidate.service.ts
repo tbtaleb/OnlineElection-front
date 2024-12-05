@@ -30,4 +30,16 @@ export class CandidateService {
       headers: this.authService.getAuthHeaders(),
     });
   }
+
+  updateCandidate(id: string, candidate: Candidate): Observable<Candidate> {
+    return this.http.put<Candidate>(`${this.apiUrl}/${id}`, candidate, {
+      headers: this.authService.getAuthHeaders(),
+    });
+  }
+
+  deleteCandidate(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.authService.getAuthHeaders(),
+    });
+  }
 }

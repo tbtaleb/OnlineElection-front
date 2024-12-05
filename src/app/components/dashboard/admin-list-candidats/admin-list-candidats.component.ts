@@ -1,51 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { Candidate } from '../../../models/candidate.model';
+import { CandidateService } from '../../../services/candidate.service';
+
 @Component({
   selector: 'app-admin-list-candidats',
   standalone: true,
-  imports: [TableModule, ToastModule, SpeedDialModule,DialogModule],
+  imports: [TableModule, ToastModule, SpeedDialModule, DialogModule],
   templateUrl: './admin-list-candidats.component.html',
-  styleUrl: './admin-list-candidats.component.css'
+  styleUrls: ['./admin-list-candidats.component.css'],
 })
-export class AdminListCandidatsComponent {
-  //IMPORTANT: fl function ta3 ng onitin wala whenever u get the candidates 7ot loading = false
+export class AdminListCandidatsComponent implements OnInit {
   loading: boolean = true;
-  showDialogue: boolean= false;
+  showDialogue: boolean = false;
   searchValue: string | undefined;
-  filteredCandidates: any[] = [];
-  candidates: any[] = [
-    {
-      id: 1,
-      name: 'John Doe',
-      party: 'Independent',
-      biography: 'Passionate about improving education and healthcare.',
-      electoralProgram: 'Increase funding for schools and hospitals.',
-      profilePicture: 'https://via.placeholder.com/50',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      party: 'Democratic Party',
-      biography: 'Advocate for climate change and renewable energy.',
-      electoralProgram: 'Promote clean energy projects and reduce emissions.',
-      profilePicture: 'https://via.placeholder.com/50',
-    },
-    {
-      id: 3,
-      name: 'Alice Johnson',
-      party: 'Republican Party',
-      biography: 'Focus on strengthening national security.',
-      electoralProgram: 'Expand border protection and defense spending.',
-      profilePicture: 'https://via.placeholder.com/50',
-    },
-  ];
+  filteredCandidates: Candidate[] = [];
+  candidates: Candidate[] = [];
+  selectedCandidate: Candidate | null = null;
+
+  constructor(
+    private candidateService: CandidateService,
+    private router: Router
+  ) {}
+
   ngOnInit() {
-    this.loading = false
-    this.filteredCandidates = this.candidates
+    this.fetchCandidates();
   }
+
+  fetchCandidates(): void {
+    this.candidateService.getCandidates().subscribe({
+      next: (candidates) => {
+        this.candidates = candidates;
+        this.filteredCandidates = candidates;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching candidates:', error);
+        this.loading = false;
+      },
+    });
+  }
+
   onSearchChange(event: Event) {
     const input = (event.target as HTMLInputElement).value.toLowerCase();
     if (input === '') {
@@ -58,18 +57,44 @@ export class AdminListCandidatsComponent {
       );
     }
   }
-  
-  showIt(candidate:any){
-    this.showDialogue = !this.showDialogue;
-    //this.candidate=candidate
+
+  showIt(candidate: Candidate) {
+    this.selectedCandidate = candidate;
+    this.showDialogue = true;
   }
+
   cancelSup() {
-    this.showDialogue = !this.showDialogue;
+    this.showDialogue = false;
+    this.selectedCandidate = null;
   }
+
   deleteCandidate() {
-    //delete method
+    if (this.selectedCandidate) {
+      this.candidateService
+        .deleteCandidate(this.selectedCandidate._id!)
+        .subscribe({
+          next: () => {
+            this.candidates = this.candidates.filter(
+              (c) => c._id !== this.selectedCandidate!._id
+            );
+            this.filteredCandidates = this.filteredCandidates.filter(
+              (c) => c._id !== this.selectedCandidate!._id
+            );
+            this.showDialogue = false;
+            this.selectedCandidate = null;
+          },
+          error: (error) => {
+            console.error('Error deleting candidate:', error);
+          },
+        });
+    }
   }
-  editCandidate(_t30: any) {
-    throw new Error('Method not implemented.');
+
+  addCandidate() {
+    this.router.navigate(['/dashboard/candidates/add']);
+  }
+
+  editCandidate(candidate: Candidate) {
+    this.router.navigate(['/dashboard/candidates/edit', candidate._id]);
   }
 }

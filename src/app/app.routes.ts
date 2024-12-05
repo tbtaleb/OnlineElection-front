@@ -9,36 +9,44 @@ import { AdminListCandidatsComponent } from './components/dashboard/admin-list-c
 import { AdminListUsersComponent } from './components/dashboard/admin-list-users/admin-list-users.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { AdminFormCandidatsComponent } from './components/dashboard/admin-form-candidats/admin-form-candidats.component';
 
 export const routes: Routes = [
-
-  { path: 'accueil', component: AccueilComponent, 
+  {
+    path: 'accueil',
+    component: AccueilComponent,
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'candidate/:id', component: CandidatDetailsComponent },
       { path: 'profile', component: ProfilComponent },
       { path: '**', redirectTo: 'home' },
-    ]
+    ],
   },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'dashboard', component: DashboardComponent,
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
     children: [
       { path: 'candidates', component: AdminListCandidatsComponent },
+      { path: 'candidates/add', component: AdminFormCandidatsComponent },
+      { path: 'candidates/edit/:id', component: AdminFormCandidatsComponent },
       { path: 'users', component: AdminListUsersComponent },
-      {path:'**', redirectTo:'candidates'}
-    ]
+      { path: '**', redirectTo: 'candidates' },
+    ],
   },
   { path: '**', redirectTo: 'accueil' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    anchorScrolling: 'enabled',
-    onSameUrlNavigation: 'reload',
-    scrollOffset: [0, 50],
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
+      scrollOffset: [0, 50],
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
